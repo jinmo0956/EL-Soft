@@ -37,7 +37,8 @@ export async function getUser(walletAddress: string): Promise<User | null> {
         .from('users')
         .select('*')
         .eq('wallet_address', walletAddress.toLowerCase())
-        .single();
+        .eq('wallet_address', walletAddress.toLowerCase())
+        .maybeSingle();
 
     if (error) return null;
     return data;
@@ -46,23 +47,18 @@ export async function getUser(walletAddress: string): Promise<User | null> {
 export async function createOrUpdateUser(walletAddress: string): Promise<User | null> {
     if (!supabase) return null;
 
-    const { data, error } = await supabase
-        .from('users')
-        .upsert(
-            {
-                wallet_address: walletAddress.toLowerCase(),
-                last_login: new Date().toISOString(),
-            },
-            { onConflict: 'wallet_address' }
-        )
-        .select()
-        .single();
+    // Use RPC function to handle upsert securely with RLS
+    const { data, error } = await supabase.rpc('login_user', {
+        p_wallet_address: walletAddress
+    });
 
     if (error) {
         console.error('Error creating/updating user:', error);
         return null;
     }
-    return data;
+
+    // RPC returns the user object directly or within a data wrapper depending on implementation
+    return data as User;
 }
 
 export async function getUserPurchases(walletAddress: string): Promise<UserPurchase[]> {

@@ -4,8 +4,6 @@ require("@nomicfoundation/hardhat-ethers");
 
 const PRIVATE_KEY = process.env.PRIVATE_KEY || "";
 
-console.log("Config loaded. PRIVATE_KEY present:", !!PRIVATE_KEY);
-
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
     solidity: "0.8.20",
@@ -21,7 +19,7 @@ module.exports = {
             accounts: PRIVATE_KEY ? [PRIVATE_KEY] : [],
         },
         polygon: {
-            url: "https://1rpc.io/matic",
+            url: "https://polygon-bor.publicnode.com", // Reliable public node
             chainId: 137,
             accounts: PRIVATE_KEY ? [PRIVATE_KEY] : [],
         },

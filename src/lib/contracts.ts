@@ -20,7 +20,7 @@ export const NETWORKS: Record<NetworkType, NetworkConfig> = {
         chainId: 137,
         name: 'Polygon',
         nativeCurrency: 'MATIC',
-        payment: '0x76C74eBdEc2D90eFFaA21a4f9CB3dc24e9F74d75', // ELSoftPayment (USDC only currently)
+        payment: '0xfbc581c0dba3fa97e1c4d1dedb1e6549be4edf83', // ELSoftPayment (USDC only currently)
         usdc: '0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359', // Native USDC (Polygon PoS)
         usdt: '0xc2132D05D31c914a87C6611C10748AEb04B58e8F', // USDT on Polygon
         isDeployed: true,
