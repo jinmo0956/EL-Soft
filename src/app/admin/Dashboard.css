@@ -1,0 +1,13 @@
+.dashboard {
+    width: 100%;
+}
+
+.dashboard-content {
+    margin-top: 20px;
+}
+
+.side-widgets {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}

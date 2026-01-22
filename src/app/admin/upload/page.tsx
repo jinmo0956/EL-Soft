@@ -2,8 +2,8 @@
 
 import { useState } from 'react';
 import { supabase } from '@/lib/supabase';
-import { motion } from 'framer-motion';
-import { UploadCloud, DollarSign, Type, FileText, Image as ImageIcon, Check, AlertTriangle, Tag } from 'lucide-react';
+import { UploadCloud, DollarSign, Type, FileText, Image as ImageIcon, Check, Tag } from 'lucide-react';
+import Navbar from '../components/Navbar';
 
 export default function UploadPage() {
     const [loading, setLoading] = useState(false);
@@ -81,166 +81,240 @@ export default function UploadPage() {
         }
     };
 
-    const containerVariants = {
-        hidden: { opacity: 0 },
-        show: {
-            opacity: 1,
-            transition: { staggerChildren: 0.1 }
-        }
-    };
-
-    const itemVariants = {
-        hidden: { y: 20, opacity: 0 },
-        show: { y: 0, opacity: 1, transition: { type: "spring" as const, stiffness: 300, damping: 24 } }
-    };
-
     return (
-        <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="max-w-4xl mx-auto"
-        >
-            <header className="mb-10">
-                <h2 className="text-4xl font-black text-white mb-2 tracking-tight">상품 등록</h2>
-                <p className="text-gray-400">새로운 소프트웨어 패키지를 마켓에 배포합니다.</p>
-            </header>
+        <div className="page-container">
+            <Navbar title="상품 등록" />
 
-            <form onSubmit={handleUpload}>
-                <motion.div
-                    variants={containerVariants}
-                    initial="hidden"
-                    animate="show"
-                    className="grid grid-cols-1 lg:grid-cols-2 gap-8"
-                >
-                    {/* 왼쪽: 정보 입력 */}
-                    <div className="space-y-6">
-                        {/* Product ID */}
-                        <motion.div
-                            variants={itemVariants}
-                            className="bg-[#0A0A0A] border border-white/10 rounded-2xl p-6 hover:border-purple-500/30 transition-colors duration-300"
-                        >
-                            <label className="flex items-center gap-2 text-sm text-gray-400 mb-3">
-                                <Tag size={16} className="text-purple-500" /> 상품 ID (고유값)
-                            </label>
-                            <input
-                                type="text"
-                                className="w-full bg-black border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all placeholder:text-gray-700 font-mono"
-                                placeholder="ex: architecture-pro-v1"
-                                value={form.id}
-                                onChange={e => setForm({ ...form, id: e.target.value.toLowerCase().replace(/\s+/g, '-') })}
-                            />
-                        </motion.div>
+            <div className="page-content">
+                <form onSubmit={handleUpload}>
+                    <div style={{
+                        display: 'grid',
+                        gridTemplateColumns: '1fr 1fr',
+                        gap: '24px'
+                    }}>
+                        {/* 왼쪽: 정보 입력 */}
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                            {/* Product ID */}
+                            <div className="card">
+                                <label style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '8px',
+                                    fontSize: '14px',
+                                    color: 'var(--text-secondary)',
+                                    marginBottom: '12px'
+                                }}>
+                                    <Tag size={16} style={{ color: 'var(--primary)' }} /> 상품 ID (고유값)
+                                </label>
+                                <input
+                                    type="text"
+                                    className="input"
+                                    placeholder="ex: architecture-pro-v1"
+                                    value={form.id}
+                                    onChange={e => setForm({ ...form, id: e.target.value.toLowerCase().replace(/\s+/g, '-') })}
+                                    style={{ fontFamily: 'monospace' }}
+                                />
+                            </div>
 
-                        {/* Product Name */}
-                        <motion.div
-                            variants={itemVariants}
-                            className="bg-[#0A0A0A] border border-white/10 rounded-2xl p-6 hover:border-cyan-500/30 transition-colors duration-300"
-                        >
-                            <label className="flex items-center gap-2 text-sm text-gray-400 mb-3">
-                                <Type size={16} className="text-cyan-500" /> 상품명
-                            </label>
-                            <input
-                                type="text"
-                                className="w-full bg-black border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all placeholder:text-gray-700"
-                                placeholder="예: Architecture Pro 2026"
-                                value={form.name}
-                                onChange={e => setForm({ ...form, name: e.target.value })}
-                            />
-                        </motion.div>
+                            {/* Product Name */}
+                            <div className="card">
+                                <label style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '8px',
+                                    fontSize: '14px',
+                                    color: 'var(--text-secondary)',
+                                    marginBottom: '12px'
+                                }}>
+                                    <Type size={16} style={{ color: 'var(--accent-cyan)' }} /> 상품명
+                                </label>
+                                <input
+                                    type="text"
+                                    className="input"
+                                    placeholder="예: Architecture Pro 2026"
+                                    value={form.name}
+                                    onChange={e => setForm({ ...form, name: e.target.value })}
+                                />
+                            </div>
 
-                        {/* Price */}
-                        <motion.div
-                            variants={itemVariants}
-                            className="bg-[#0A0A0A] border border-white/10 rounded-2xl p-6 hover:border-green-500/30 transition-colors duration-300"
-                        >
-                            <label className="flex items-center gap-2 text-sm text-gray-400 mb-3">
-                                <DollarSign size={16} className="text-green-500" /> 가격 (USDT)
-                            </label>
-                            <input
-                                type="number"
-                                step="0.01"
-                                className="w-full bg-black border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500 transition-all font-mono text-xl"
-                                placeholder="0.00"
-                                value={form.price}
-                                onChange={e => setForm({ ...form, price: e.target.value })}
-                            />
-                        </motion.div>
+                            {/* Price */}
+                            <div className="card">
+                                <label style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '8px',
+                                    fontSize: '14px',
+                                    color: 'var(--text-secondary)',
+                                    marginBottom: '12px'
+                                }}>
+                                    <DollarSign size={16} style={{ color: 'var(--accent-cyan)' }} /> 가격 (USDT)
+                                </label>
+                                <input
+                                    type="number"
+                                    step="0.01"
+                                    className="input"
+                                    placeholder="0.00"
+                                    value={form.price}
+                                    onChange={e => setForm({ ...form, price: e.target.value })}
+                                    style={{ fontFamily: 'monospace', fontSize: '20px' }}
+                                />
+                            </div>
 
-                        {/* Description */}
-                        <motion.div
-                            variants={itemVariants}
-                            className="bg-[#0A0A0A] border border-white/10 rounded-2xl p-6"
-                        >
-                            <label className="flex items-center gap-2 text-sm text-gray-400 mb-3">
-                                <FileText size={16} className="text-blue-500" /> 상품 설명
-                            </label>
-                            <textarea
-                                className="w-full bg-black border border-white/10 rounded-xl px-4 py-3 text-white h-32 resize-none focus:outline-none focus:border-blue-500 transition-all text-sm leading-relaxed"
-                                placeholder="제품의 상세 스펙을 입력하세요..."
-                                value={form.desc}
-                                onChange={e => setForm({ ...form, desc: e.target.value })}
-                            />
-                        </motion.div>
+                            {/* Description */}
+                            <div className="card">
+                                <label style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '8px',
+                                    fontSize: '14px',
+                                    color: 'var(--text-secondary)',
+                                    marginBottom: '12px'
+                                }}>
+                                    <FileText size={16} style={{ color: 'var(--primary)' }} /> 상품 설명
+                                </label>
+                                <textarea
+                                    className="input"
+                                    placeholder="제품의 상세 스펙을 입력하세요..."
+                                    value={form.desc}
+                                    onChange={e => setForm({ ...form, desc: e.target.value })}
+                                    style={{ minHeight: '120px', resize: 'vertical' }}
+                                />
+                            </div>
+                        </div>
+
+                        {/* 오른쪽: 파일 업로드 */}
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                            {/* 썸네일 */}
+                            <div
+                                className="card"
+                                style={{
+                                    padding: '40px',
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    gap: '16px',
+                                    border: imageFile ? '2px solid var(--accent-cyan)' : '2px dashed var(--text-secondary)',
+                                    cursor: 'pointer',
+                                    position: 'relative',
+                                    transition: 'all 0.2s ease'
+                                }}
+                            >
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    style={{
+                                        position: 'absolute',
+                                        inset: 0,
+                                        opacity: 0,
+                                        cursor: 'pointer'
+                                    }}
+                                    onChange={e => setImageFile(e.target.files?.[0] || null)}
+                                />
+                                <div style={{
+                                    width: '64px',
+                                    height: '64px',
+                                    borderRadius: '50%',
+                                    background: imageFile ? 'rgba(1, 181, 116, 0.1)' : 'var(--bg-input)',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center'
+                                }}>
+                                    <ImageIcon size={32} style={{ color: imageFile ? 'var(--accent-cyan)' : 'var(--text-secondary)' }} />
+                                </div>
+                                <div style={{ textAlign: 'center' }}>
+                                    <p style={{ fontWeight: 600, color: 'var(--text-primary)', marginBottom: '4px' }}>
+                                        {imageFile ? imageFile.name : '썸네일 이미지 업로드'}
+                                    </p>
+                                    <p style={{ fontSize: '13px', color: 'var(--text-secondary)' }}>
+                                        {imageFile ? `${(imageFile.size / 1024 / 1024).toFixed(2)} MB` : 'PNG, JPG (최대 5MB)'}
+                                    </p>
+                                </div>
+                            </div>
+
+                            {/* 소프트웨어 파일 */}
+                            <div
+                                className="card"
+                                style={{
+                                    padding: '40px',
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    gap: '16px',
+                                    border: softwareFile ? '2px solid var(--accent-orange)' : '2px dashed var(--text-secondary)',
+                                    cursor: 'pointer',
+                                    position: 'relative',
+                                    transition: 'all 0.2s ease'
+                                }}
+                            >
+                                <input
+                                    type="file"
+                                    accept=".zip,.exe,.dmg,.pkg"
+                                    style={{
+                                        position: 'absolute',
+                                        inset: 0,
+                                        opacity: 0,
+                                        cursor: 'pointer'
+                                    }}
+                                    onChange={e => setSoftwareFile(e.target.files?.[0] || null)}
+                                />
+                                <div style={{
+                                    width: '64px',
+                                    height: '64px',
+                                    borderRadius: '50%',
+                                    background: softwareFile ? 'rgba(255, 181, 71, 0.1)' : 'var(--bg-input)',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center'
+                                }}>
+                                    <UploadCloud size={32} style={{ color: softwareFile ? 'var(--accent-orange)' : 'var(--text-secondary)' }} />
+                                </div>
+                                <div style={{ textAlign: 'center' }}>
+                                    <p style={{ fontWeight: 600, color: 'var(--text-primary)', marginBottom: '4px' }}>
+                                        {softwareFile ? softwareFile.name : '설치 파일 업로드 (.zip)'}
+                                    </p>
+                                    <p style={{ fontSize: '13px', color: 'var(--text-secondary)' }}>
+                                        {softwareFile ? `${(softwareFile.size / 1024 / 1024).toFixed(2)} MB` : '암호화된 프라이빗 스토리지에 저장'}
+                                    </p>
+                                </div>
+                            </div>
+
+                            {/* Submit Button */}
+                            <button
+                                type="submit"
+                                disabled={loading}
+                                className="btn btn-primary"
+                                style={{
+                                    width: '100%',
+                                    padding: '16px',
+                                    fontSize: '16px',
+                                    opacity: loading ? 0.5 : 1
+                                }}
+                            >
+                                {loading ? (
+                                    <>
+                                        <div style={{
+                                            width: '20px',
+                                            height: '20px',
+                                            border: '2px solid rgba(255,255,255,0.3)',
+                                            borderTopColor: 'white',
+                                            borderRadius: '50%',
+                                            animation: 'spin 1s linear infinite'
+                                        }} />
+                                        업로드 중...
+                                    </>
+                                ) : (
+                                    <>
+                                        <Check size={20} />
+                                        마켓에 배포하기
+                                    </>
+                                )}
+                            </button>
+                        </div>
                     </div>
-
-                    {/* 오른쪽: 파일 업로드 */}
-                    <div className="space-y-6">
-                        {/* 썸네일 */}
-                        <motion.div
-                            variants={itemVariants}
-                            whileHover={{ scale: 1.02 }}
-                            className={`group relative border border-dashed rounded-2xl p-10 flex flex-col items-center justify-center gap-4 transition-all cursor-pointer overflow-hidden ${imageFile ? 'bg-cyan-500/5 border-cyan-500/50' : 'bg-[#0A0A0A] border-white/10 hover:bg-white/5 hover:border-cyan-500/50'}`}
-                        >
-                            <input type="file" accept="image/*" className="absolute inset-0 opacity-0 cursor-pointer z-10" onChange={e => setImageFile(e.target.files?.[0] || null)} />
-                            <div className={`w-16 h-16 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform ${imageFile ? 'bg-cyan-500/20' : 'bg-cyan-500/10'}`}>
-                                <ImageIcon className="text-cyan-400" size={32} />
-                            </div>
-                            <div className="text-center">
-                                <p className="text-white font-medium mb-1">{imageFile ? imageFile.name : '썸네일 이미지 업로드'}</p>
-                                <p className="text-xs text-gray-500">{imageFile ? `${(imageFile.size / 1024 / 1024).toFixed(2)} MB` : 'PNG, JPG (최대 5MB)'}</p>
-                            </div>
-                        </motion.div>
-
-                        {/* 소프트웨어 파일 */}
-                        <motion.div
-                            variants={itemVariants}
-                            whileHover={{ scale: 1.02 }}
-                            className={`group relative border border-dashed rounded-2xl p-10 flex flex-col items-center justify-center gap-4 transition-all cursor-pointer overflow-hidden ${softwareFile ? 'bg-yellow-500/5 border-yellow-500/50' : 'bg-[#0A0A0A] border-white/10 hover:bg-white/5 hover:border-yellow-500/50'}`}
-                        >
-                            <input type="file" accept=".zip,.exe,.dmg,.pkg" className="absolute inset-0 opacity-0 cursor-pointer z-10" onChange={e => setSoftwareFile(e.target.files?.[0] || null)} />
-                            <div className={`w-16 h-16 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform ${softwareFile ? 'bg-yellow-500/20' : 'bg-yellow-500/10'}`}>
-                                <UploadCloud className="text-yellow-400" size={32} />
-                            </div>
-                            <div className="text-center">
-                                <p className="text-white font-medium mb-1">{softwareFile ? softwareFile.name : '설치 파일 업로드 (.zip)'}</p>
-                                <p className="text-xs text-gray-500">{softwareFile ? `${(softwareFile.size / 1024 / 1024).toFixed(2)} MB` : '암호화된 프라이빗 스토리지에 저장'}</p>
-                            </div>
-                        </motion.div>
-
-                        {/* Submit Button */}
-                        <motion.button
-                            variants={itemVariants}
-                            whileHover={{ scale: 1.02, y: -2 }}
-                            whileTap={{ scale: 0.98 }}
-                            type="submit"
-                            disabled={loading}
-                            className="w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold py-4 rounded-xl shadow-lg shadow-cyan-500/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-                        >
-                            {loading ? (
-                                <>
-                                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                                    업로드 중...
-                                </>
-                            ) : (
-                                <>
-                                    <Check size={20} />
-                                    마켓에 배포하기
-                                </>
-                            )}
-                        </motion.button>
-                    </div>
-                </motion.div>
-            </form>
-        </motion.div>
+                </form>
+            </div>
+        </div>
     );
 }

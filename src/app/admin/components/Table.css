@@ -1,0 +1,205 @@
+.table-card {
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    box-shadow: var(--shadow-card);
+}
+
+.table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.table-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.table-menu-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: var(--bg-input);
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.table-menu-btn:hover {
+    background: var(--bg-primary);
+}
+
+.table-wrapper {
+    overflow-x: auto;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.data-table th {
+    text-align: left;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--bg-input);
+}
+
+.data-table td {
+    padding: 16px;
+    font-size: 14px;
+    color: var(--text-primary);
+    border-bottom: 1px solid var(--bg-input);
+}
+
+.data-table tr:last-child td {
+    border-bottom: none;
+}
+
+.name-cell {
+    font-weight: 600;
+}
+
+.date-cell {
+    color: var(--text-secondary);
+    font-size: 13px;
+}
+
+.id-cell {
+    font-family: monospace;
+    color: var(--text-secondary);
+}
+
+.price-cell {
+    font-weight: 600;
+    color: var(--accent-cyan);
+}
+
+.mono {
+    font-family: monospace;
+    font-size: 12px;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: var(--radius-sm);
+    text-transform: capitalize;
+}
+
+.status-badge.approved,
+.status-badge.paid {
+    background: rgba(1, 181, 116, 0.1);
+    color: var(--accent-cyan);
+}
+
+.status-badge.disable,
+.status-badge.failed {
+    background: rgba(227, 26, 26, 0.1);
+    color: var(--accent-red);
+}
+
+.status-badge.error {
+    background: rgba(227, 26, 26, 0.1);
+    color: var(--accent-red);
+}
+
+.status-badge.warning,
+.status-badge.pending {
+    background: rgba(255, 181, 71, 0.1);
+    color: var(--accent-orange);
+}
+
+.progress-cell {
+    min-width: 120px;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: var(--bg-input);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: var(--primary);
+    border-radius: var(--radius-full);
+    transition: width 0.3s ease;
+}
+
+/* Checklist Card */
+.checklist-card {
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    box-shadow: var(--shadow-card);
+}
+
+.checklist-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.checklist-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.checklist-items {
+    list-style: none;
+}
+
+.checklist-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--bg-input);
+}
+
+.checklist-item:last-child {
+    border-bottom: none;
+}
+
+.checkbox {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--text-secondary);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+    cursor: pointer;
+}
+
+.checkbox.checked {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: white;
+}
+
+.checklist-text {
+    font-size: 14px;
+    color: var(--text-primary);
+}
+
+.checklist-item.checked .checklist-text {
+    text-decoration: line-through;
+    color: var(--text-secondary);
+}
