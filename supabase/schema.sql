@@ -13,7 +13,22 @@ CREATE TABLE IF NOT EXISTS users (
   nickname TEXT,
   email TEXT,
   last_login TIMESTAMP WITH TIME ZONE,
-  role TEXT DEFAULT 'user' CHECK (role IN ('user', 'admin'))
+  role TEXT DEFAULT 'user' CHECK (role IN ('user', 'admin')),
+  is_banned BOOLEAN DEFAULT false  -- 악성 유저 차단 기능
+);
+
+-- ============================================
+-- Inquiries table (상담 관리)
+-- ============================================
+CREATE TABLE IF NOT EXISTS inquiries (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_wallet TEXT NOT NULL REFERENCES users(wallet_address),
+  contact_info TEXT,  -- 이메일, 전화번호, 텔레그램 등
+  message TEXT NOT NULL,
+  status TEXT DEFAULT 'pending' CHECK (status IN ('pending', 'resolved', 'spam')),
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  resolved_at TIMESTAMP WITH TIME ZONE,
+  admin_note TEXT
 );
 
 -- ============================================
